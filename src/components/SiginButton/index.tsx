@@ -12,7 +12,7 @@ export function SiginButton(){
         onClick={() => {}}
         >
         
-        <img src="https://sujeitoprogramador.com/steve.png" alt="" /> 
+        <img src="https://sujeitoprogramador.com/steve.png" alt="Foto usuario" /> 
         Olá Adriano
         <FiX color="#FFB800" className={styles.closeIcon}/>   
         </button>
