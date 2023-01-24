@@ -1,5 +1,6 @@
 import styles from './styles.module.scss';
 import Link from "next/link"
+import {SiginButton} from '../SiginButton'
 
 export function Header(){
     return(
@@ -14,13 +15,10 @@ export function Header(){
             </Link>
             <Link href='/bording' legacyBehavior>
                 <a>  Meu Boarging</a>
-            </Link>
-               
+            </Link> 
             </nav>
+            <SiginButton/>
            
-            <button>
-                Entrar com GitHub
-            </button>
        </div>
       </header>
     )

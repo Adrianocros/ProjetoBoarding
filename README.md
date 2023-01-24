@@ -29,3 +29,5 @@ pnpm dev
 
 
 Folhas de estilo - SASS
+
+Icones - react icons
