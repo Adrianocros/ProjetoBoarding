@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import Link from "next/link"
 import {SiginButton} from '../SiginButton'
+import { SuportButton } from '../SuportButton';
 
 export function Header(){
     return(
@@ -10,13 +11,18 @@ export function Header(){
                 <img src="/images/logo.svg" alt="Logo Boarding" />
             </Link>
             <nav>
-            <Link href='/' legacyBehavior>
-                <a >Home</a>
+            <Link  href='/' legacyBehavior>
+                <a>Home</a>
             </Link>
-            <Link href='/bording' legacyBehavior>
-                <a>  Meu Boarging</a>
+            <Link  href='/boarding' legacyBehavior>
+                <a>  Meu Boarding</a>
+            </Link> 
+
+            <Link href='#'>
+                <SuportButton/>
             </Link> 
             </nav>
+            
             <SiginButton/>
            
        </div>

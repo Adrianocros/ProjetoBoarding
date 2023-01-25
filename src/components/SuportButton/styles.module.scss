@@ -1,0 +1,19 @@
+.donateContainer{
+    z-index: 99;
+
+    button{
+        border: 0;
+        background-color: #ffb800;
+        width: 70px;
+        height: 30px;
+        border-radius: 6px;
+        font-size: 1.2rem;
+        filter: drop-shadow(2px 1px 5px rgba(0,0,0, 0.2));
+        transition: all 0.2s;
+        color: #fff;
+    }
+
+    button:hover{
+        transform: scale(1.2);
+    }
+}

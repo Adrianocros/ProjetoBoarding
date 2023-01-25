@@ -1,6 +1,7 @@
 .headerContainer{
   height: 6rem;
   background-color: #131a29;  
+  
 }
 
 .headerContent{
@@ -9,6 +10,7 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
+
 
     img{
         cursor: pointer;
@@ -23,8 +25,8 @@
         padding: 0 0.5rem;
         height: 5rem;
         line-height: 5rem;
-        color: #fff;
-
+        color: #ffb800;
+        
         & + a{
             margin-left: 2rem;
         }
@@ -32,4 +34,7 @@
     button{
         margin-left: auto;
     }
+
+
 }
+

@@ -84,7 +84,6 @@ export default function Boarding(){
            </section>
         </main>
 
-        <div>
             
             <div className={styles.vipContainer}>
                 <h3>Obrigado por apoiar o projeto</h3>
@@ -95,7 +94,6 @@ export default function Boarding(){
                     </time>
                 </div>
             </div>
-        </div>
        </>
     )
 }
