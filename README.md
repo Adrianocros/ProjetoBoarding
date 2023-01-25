@@ -31,3 +31,6 @@ pnpm dev
 Folhas de estilo - SASS
 
 Icones - react icons
+
+Autenticação Next-auth.js.org
+yarn add next-auth
