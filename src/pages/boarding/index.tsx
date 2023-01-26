@@ -1,6 +1,11 @@
 import styles from './styles.module.scss';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
+
 import  Head  from 'next/head';
 import {FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock} from 'react-icons/fi';
+
+
 
 
 export default function Boarding(){
@@ -96,4 +101,25 @@ export default function Boarding(){
             </div>
        </>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
+    if(!session?.id){
+        //user nao logado redirecionar
+        return{
+            redirect:{
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+
+    console.log(session.id)
+
+    return{
+        props:{
+
+        }
+    }
 }
