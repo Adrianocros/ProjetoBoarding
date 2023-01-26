@@ -65,7 +65,7 @@ export default function Boarding({user, data}: BoardinPros){
         created:new Date(),
         tarefa:input,
         userId:user.id,
-        noma:user.nome
+        nome:user.nome
        })
        .then((doc) => {
         console.log("cadastrado com suscesso")
