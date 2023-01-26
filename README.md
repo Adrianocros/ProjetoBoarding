@@ -34,3 +34,7 @@ Icones - react icons
 
 Autenticação Next-auth.js.org
 yarn add next-auth
+
+Trabalhando com datas
+
+date-fns - yarn add date-fns
