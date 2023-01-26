@@ -64,6 +64,20 @@ export default function Boarding({user, data}: BoardinPros){
        })
     }
 
+    async function handleDelete(id: string){
+        await firebase.firestore().collection('tarefas').doc(id)
+        .delete()
+        .then(() => {
+            console.log('deletado com sucesso')
+            let taskDeleted = taskList.filter(item => {
+               return(item.id != id) 
+            });;
+            setTaskList(taskDeleted);
+        }).catch((err)=> {
+            console.log(err)
+        })
+    }
+
     return(
         <>
         <Head>
@@ -84,7 +98,7 @@ export default function Boarding({user, data}: BoardinPros){
            <h1>Você tem {taskList.length} {taskList.length === 1 ? 'Tarefa' : 'Tarefas'}</h1>
            <section>
             {taskList.map(task => (
-                 <article className={styles.taskList}>
+                 <article key={task.id} className={styles.taskList}>
                     <Link href={`/boarding/${task.id}`}>
                         <p>{task.tarefa}</p>
                     </Link>
@@ -101,7 +115,7 @@ export default function Boarding({user, data}: BoardinPros){
                          </button>
                      </div>
 
-                     <button>
+                     <button onClick={() => handleDelete(task.id)}>
                          <FiTrash size={20} color="#Ff3636"/>
                          <span>Excluir</span>
                      </button>
