@@ -1,24 +1,60 @@
 import styles from './styles.module.scss';
+import {useState, FormEvent} from 'react'
+
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 
 import  Head  from 'next/head';
-import {FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock} from 'react-icons/fi';
+import { FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock} from 'react-icons/fi';
+import firebase from '../../services/firebaseConection'
 
 
+interface BoardinPros{
+    user:{
+        id:string;
+        nome:string;
+    }
+}
 
+export default function Boarding({user}: BoardinPros){
 
-export default function Boarding(){
+    const [input, setInput] = useState('');
+
+  async function handleAddTarefa(e: FormEvent){
+       e.preventDefault()
+
+       if(input === ""){
+        alert('Escreva alguma tarefa')
+        return;
+       }
+
+       await firebase.firestore().collection('tarefas')
+       .add({
+        created: new Date(),
+        tarefa: input,
+        userId: user.id,
+        noma: user.nome
+       })
+       .then(() => {
+        console.log("cadastrado com suscesso")
+       })
+       .catch((err) => {
+        console.log('Erro ao cadastrar',err)
+       })
+    }
+
     return(
         <>
         <Head>
             <title>Boarding - Minhas Tarefas</title>
         </Head>
         <main className={styles.container}>
-           <form>
+           <form onSubmit={handleAddTarefa}>
             <input 
                 type="text" 
                 placeholder='Digite sua tarefa...'
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
             />
             <button type='submit'>
                 <FiPlus size={25} color="#17181f"/>
@@ -115,11 +151,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    console.log(session.id)
+    const user = {
+        nome: session?.user?.name,
+        id:session?.id
+    }
 
     return{
         props:{
-
+            user
         }
     }
 }
