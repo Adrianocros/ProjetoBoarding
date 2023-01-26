@@ -4,7 +4,7 @@ import {format} from 'date-fns'
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 import  Head  from 'next/head';
-import { FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock} from 'react-icons/fi';
+import { FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock, FiX} from 'react-icons/fi';
 import firebase from '../../services/firebaseConection';
 import Link from 'next/link'
 
@@ -30,6 +30,7 @@ export default function Boarding({user, data}: BoardinPros){
 
     const [input, setInput] = useState('');
     const [taskList, setTaskList] = useState<TaskList[]>(JSON.parse(data))
+    const [taskEdit, setTaskEdit] = useState<TaskList | null>(null)
 
   async function handleAddTarefa(e: FormEvent){
        e.preventDefault()
@@ -38,6 +39,26 @@ export default function Boarding({user, data}: BoardinPros){
         alert('Escreva alguma tarefa')
         return;
        }
+
+       if(taskEdit){
+        await firebase.firestore().collection('tarefas')
+        .doc(taskEdit.id)
+        .update({
+            tarefa:input
+        })
+        .then(() =>{
+            let data = taskList;
+            let taskIndex = taskList.findIndex( item => item.id === taskEdit.id)
+            data[taskIndex].tarefa = input
+
+            setTaskList(data);
+
+            setTaskEdit(null)
+            setInput('')
+        })
+        return;
+       }
+    
 
        await firebase.firestore().collection('tarefas')
        .add({
@@ -78,12 +99,33 @@ export default function Boarding({user, data}: BoardinPros){
         })
     }
 
+    function handleEditTask(task: TaskList){
+        setTaskEdit(task)
+        setInput(task.tarefa) 
+    }
+
+    function handleCancelEdit(){
+        setInput('')
+        setTaskEdit(null)
+    }
+
     return(
         <>
         <Head>
             <title>Boarding - Minhas Tarefas</title>
         </Head>
         <main className={styles.container}>
+
+            {taskEdit && (
+                <span className={styles.warnText}>
+                    <button onClick={handleCancelEdit}>
+                    <FiX size={30} color="#ff3636"/>
+                    </button>
+                    Você esta editando a tarefa!
+                </span>
+
+            )}
+
            <form onSubmit={handleAddTarefa}>
             <input 
                 type="text" 
@@ -109,7 +151,7 @@ export default function Boarding({user, data}: BoardinPros){
                              <FiCalendar size={20} color="#fFb800"/>
                              <time>{task.createdFormated}</time>
                          </div>
-                         <button>
+                         <button onClick={() => handleEditTask(task)}>
                              <FiEdit2 size={20} color="#fff"/>
                              <span>Editar</span>
                          </button>
