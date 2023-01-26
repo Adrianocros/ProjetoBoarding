@@ -9,17 +9,27 @@ import firebase from '../../services/firebaseConection';
 import Link from 'next/link'
 
 
-interface BoardinPros{
-    user:{
-        id:string;
-        nome:string;
-    }
+type TaskList ={
+    id: string,
+    created: string | Date,
+    createdFormated?:string,
+    tarefa:string,
+    userId:string,
+    userNome:string
 }
 
-export default function Boarding({user}: BoardinPros){
+interface BoardinPros{
+    user:{
+        id:string,
+        nome:string,
+    }
+    data:string
+}
+
+export default function Boarding({user, data}: BoardinPros){
 
     const [input, setInput] = useState('');
-    const [taskList, setTaskList] = useState([])
+    const [taskList, setTaskList] = useState<TaskList[]>(JSON.parse(data))
 
   async function handleAddTarefa(e: FormEvent){
        e.preventDefault()
@@ -71,7 +81,7 @@ export default function Boarding({user}: BoardinPros){
                 <FiPlus size={25} color="#17181f"/>
             </button>
            </form>
-           <h1>Você tem tarefas</h1>
+           <h1>Você tem {taskList.length} {taskList.length === 1 ? 'Tarefa' : 'Tarefas'}</h1>
            <section>
             {taskList.map(task => (
                  <article className={styles.taskList}>
@@ -127,6 +137,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
+    const tasks = await firebase.firestore().collection('tarefas')
+        .where('userId', '==', session?.id)
+        .orderBy('created', 'asc').get();
+
+    const data = JSON.stringify(tasks.docs.map(tarefa =>{
+        return{
+            id: tarefa.id,
+            createdFormated: format(tarefa.data().created.toDate(), 'dd MMMM yyyy'),
+            ...tarefa.data()
+        }
+    }))
+
     const user = {
         nome: session?.user?.name,
         id:session?.id
@@ -134,7 +156,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     return{
         props:{
-            user
+            user,
+            data
         }
     }
 }
