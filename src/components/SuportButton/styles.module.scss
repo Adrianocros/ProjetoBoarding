@@ -17,3 +17,14 @@
         transform: scale(1.2);
     }
 }
+
+@media (max-width: 485px){
+
+    .donateContainer{
+        button{
+            width: 45px;
+            height: 22px;
+            font-size: 12px;
+        }
+    }
+ }

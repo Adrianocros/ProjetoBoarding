@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 export function SuportButton(){
     return(
         <div className={styles.donateContainer}>
-          <Link href='#' legacyBehavior>
+          <Link href='/donate' legacyBehavior>
             <button>Apoiar</button>
           </Link> 
         </div>

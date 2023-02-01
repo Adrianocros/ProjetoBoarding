@@ -17,7 +17,7 @@ export function SiginButton(){
         >
         
         <img src={session.user?.image} alt="Foto usuario" /> 
-        Olá {session.user?.name}
+        <p>Olá {session.user?.name}</p>
         <FiX color="#FFB800" className={styles.closeIcon}/>   
         </button>
     ):(

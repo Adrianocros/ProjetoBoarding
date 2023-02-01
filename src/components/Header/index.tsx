@@ -17,8 +17,7 @@ export function Header(){
             <Link  href='/boarding' legacyBehavior>
                 <a>  Meu Boarding</a>
             </Link> 
-
-            <Link href='#'>
+            <Link href='/donate'>
                 <SuportButton/>
             </Link> 
             </nav>

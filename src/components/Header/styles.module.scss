@@ -38,3 +38,38 @@
 
 }
 
+@media (max-width: 770px){
+
+   .headerContent{
+        img{
+        display: none;
+        }
+
+        nav{
+            margin-left: -5px;
+        }
+        a{
+            & + a{
+                margin-left: 0.1rem;
+            }
+        }
+   }
+
+}
+
+@media (max-width: 485px){
+
+    .headerContent{
+ 
+         nav{
+             margin-left: -5px;
+         }
+         a{
+            font-size: 10px;
+            & + a{
+                 margin-left: 0.1rem;
+             }
+         }
+    }
+ 
+ }
