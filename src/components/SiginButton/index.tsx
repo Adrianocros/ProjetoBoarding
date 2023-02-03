@@ -1,6 +1,6 @@
-import {signIn, signout, signOut, useSession} from 'next-auth/client';
+import {useSession, signIn, signOut} from 'next-auth/client';
 import styles from './styles.module.scss';
-import {FaGithub} from 'react-icons/fa';
+import {FaGoogle} from 'react-icons/fa';
 import {FiX} from 'react-icons/fi';
 
 
@@ -16,18 +16,18 @@ export function SiginButton(){
         onClick={() => signOut()}
         >
         
-        <img src={session.user?.image} alt="Foto usuario" /> 
-        <p>Olá {session.user?.name}</p>
+        <img src={session.user.image} alt="" /> 
+        <p>Olá {session.user.name}</p>
         <FiX color="#FFB800" className={styles.closeIcon}/>   
         </button>
     ):(
         <button
         type='button'
         className={styles.siginInButton}
-        onClick={() =>signIn('github')}
+        onClick={() =>signIn('google')}
         >
-        <FaGithub color="#FFB800"/>    
-        Entre com GitHub
+        <FaGoogle color="#ff1100"/>    
+        Entre com Google
         </button>
     )
 }
