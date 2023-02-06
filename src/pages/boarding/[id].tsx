@@ -72,6 +72,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params}) => 
 
     return JSON.stringify(data);
   })
+  .catch(()=> {
+    return{}
+  })
+//Verificar se o objeto esta vezio
+  if(Object.keys(data).length === 0){
+    return{
+      redirect:{
+        destination: '/boarding',
+        permanent: false,
+      }
+    }
+  }
 
   return{
     props:{
