@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import firebase from '../../../services/firebaseConection'
+import firebaee from '../../../services/firebaseConection'
 
 export default NextAuth ({
   providers: [

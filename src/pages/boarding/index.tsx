@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import {useState, FormEvent} from 'react'
-import {format} from 'date-fns'
+import {format, formatDistance} from 'date-fns';
+import {ptBR} from 'date-fns/locale'
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 import  Head  from 'next/head';
@@ -22,8 +23,10 @@ type TaskList ={
 
 interface BoardinPros{
     user:{
-        id:string,
-        nome:string,
+        id:string;
+        nome:string;
+        vip: boolean;
+        lastDonate: string | Date;
     }
     data:string
 }
@@ -153,10 +156,12 @@ export default function Boarding({user, data}: BoardinPros){
                              <FiCalendar size={20} color="#fFb800"/>
                              <time>{task.createdFormated}</time>
                          </div>
-                         <button onClick={() => handleEditTask(task)}>
-                             <FiEdit2 size={20} color="#fff"/>
-                             <span>Editar</span>
-                         </button>
+                       {user.vip && (
+                          <button onClick={() => handleEditTask(task)}>
+                          <FiEdit2 size={20} color="#fff"/>
+                          <span>Editar</span>
+                      </button>
+                       )}
                      </div>
 
                      <button onClick={() => handleDelete(task.id)}>
@@ -170,15 +175,17 @@ export default function Boarding({user, data}: BoardinPros){
             </section>
             </main>
 
-            <div className={styles.vipContainer}>
-                <h3>Obrigado por apoiar o projeto</h3>
-                <div>
-                    <FiClock size={28} color="#fff"/>
-                    <time>
-                        Ultima doação foi a 3 dias
-                    </time>
-                </div>
-            </div>
+            {user.vip && (
+                 <div className={styles.vipContainer}>
+                 <h3>Obrigado por apoiar o projeto</h3>
+                 <div>
+                     <FiClock size={28} color="#fff"/>
+                     <time>
+                         Ultima doação foi a {formatDistance(new Date(user.lastDonate), new Date(), {locale:ptBR})}
+                     </time>
+                 </div>
+             </div>           
+            )}
        </>
     )
 }
@@ -207,9 +214,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }))
 
+
     const user = {
         nome: session?.user?.name,
-        id:session?.id
+        id:session?.id,
+        vip: session?.vip,
+        lastDonate: session?.lastDonate
     }
 
     return{
